@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: bdi_sqlserver
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=bd2026
+      - MSSQL_SA_PASSWORD=Bd2026Segura!
       - MSSQL_PID=Developer
     ports:
       - "1433:1433"
@@ -14,7 +12,7 @@ services:
       - sqlserver_data:/var/opt/mssql
       - ./init-db:/docker-entrypoint-initdb.d
     healthcheck:
-      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "bd2026" -Q "SELECT 1" || exit 1
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "Bd2026Segura!" -Q "SELECT 1" || exit 1
       interval: 10s
       timeout: 5s
       retries: 10
@@ -32,7 +30,7 @@ services:
       - DB_PORT=1433
       - DB_NAME=BDI_Tarea01
       - DB_USER=sa
-      - DB_PASSWORD=bd2026
+      - DB_PASSWORD=Bd2026Segura!
     depends_on:
       sqlserver:
         condition: service_healthy
