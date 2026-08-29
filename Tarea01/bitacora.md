@@ -9,6 +9,9 @@ VSCode
 
 SQLServer es donde viven los datos, las tablas. 
 Docker es una caja cerrada para que vivan aplicaciones, (como SQLServer) para que corra igual en cualquier computadora, sin instalarlo directamente en tu sistema.
+    docker-compose.yml es la lista de instrucciones que le dice a Docker qué cajas (contenedores) levantar y cómo.
+Python/FastAPI es el lenguaje que usaremos para escribir el programa que se habla con la base de datos
+Tailscale es una red privada segura
 
 1. En VSCode, se instala MSSQL Una extension para bases de datos.
 
