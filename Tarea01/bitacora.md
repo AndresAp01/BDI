@@ -27,6 +27,7 @@ Para esta primera tarea: '/home/andres/Dev/BasesDatosI/BDI/Tarea01'
 docker compose up -d
 docker ps   # se debería ver bd1-sqlserver como "Up"
 ```
+/home/andres/Dev/BasesDatosI/BDI/Tarea01/recursos_bitacora/dockerps.png
 
 1. Se abren las conexiones en VS Code
     1. En la barra lateral izquierda de VS Code va a aparecer un ícono nuevo (un cilindro/base de datos) — es el panel de MSSQL. Click ahí.
