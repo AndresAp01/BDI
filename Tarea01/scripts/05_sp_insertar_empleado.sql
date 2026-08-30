@@ -58,7 +58,7 @@ BEGIN
             ERROR_NUMBER()
         );
 
-        -- Codigo 2 = error inesperado (no es el caso de "ya existe").
+        -- Codigo 2 = error inesperado
         SELECT 2 AS Resultado, 'Ocurrio un error inesperado.' AS Mensaje;
     END CATCH
 END
@@ -66,10 +66,12 @@ GO
 
 -- Pruebas manuales:
 
--- Prueba A: insertar un nombre nuevo, deberia decir "Insercion exitosa."
+-- Prueba a insercion exitosa
 EXEC dbo.sp_InsertarEmpleado @Nombre = 'Pedro Gonzalez', @Salario = 300000.00;
 GO
 
--- Prueba B: insertar el mismo nombre otra vez, deberia decir "ya existe."
+-- prueba b usuario existente
 EXEC dbo.sp_InsertarEmpleado @Nombre = 'Pedro Gonzalez', @Salario = 300000.00;
 GO
+
+EXEC dbo.sp_InsertarEmpleado @Nombre = 'Katherine Perez', @Salario = 350000.00;
