@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Empleados</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 40px; }
+        .tarjeta { background: white; max-width: 500px; margin: auto; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .encabezado { background: #1e3a8a; color: white; padding: 20px; font-size: 22px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #1e40af; color: white; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
+        .boton { display: inline-block; margin: 20px; padding: 10px 20px; background: #1e40af; color: white; text-decoration: none; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <div class="tarjeta">
+        <div class="encabezado">Lista de Empleados</div>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Salario</th>
+            </tr>
+            {% for empleado in empleados %}
+            <tr>
+                <td>{{ empleado.id }}</td>
+                <td>{{ empleado.Nombre }}</td>
+                <td>{{ "{:,.2f}".format(empleado.Salario) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a class="boton" href="/insertar">Insertar</a>
+    </div>
+</body>
+</html>

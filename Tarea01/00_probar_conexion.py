@@ -1,8 +1,5 @@
 """
 Script minimo para confirmar que Python puede hablar con SQL Server corriendo en Docker.
-
-No usa FastAPI, no usa la tabla Empleado todavia.
-Solo abre una conexion, pregunta la version del servidor, y la cierra.
 """
 
 import pymssql

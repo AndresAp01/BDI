@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar Empleado</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 40px; }
+        .tarjeta { background: white; max-width: 420px; margin: auto; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .encabezado { background: #1e3a8a; color: white; padding: 20px; font-size: 22px; }
+        .cuerpo { padding: 20px; }
+        label { display: block; margin-top: 12px; font-weight: bold; }
+        input { width: 100%; padding: 8px; margin-top: 6px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; }
+        .botones { margin-top: 20px; display: flex; gap: 10px; }
+        button, .regresar { padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; text-decoration: none; }
+        button { background: #1e40af; color: white; }
+        .regresar { background: #e5e7eb; color: #333; }
+        .error { color: #b91c1c; margin-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="tarjeta">
+        <div class="encabezado">Insertar Empleado</div>
+        <div class="cuerpo">
+            <form method="post" action="/insertar" id="formulario">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre"
+                       pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\- ]+"
+                       title="Solo letras, espacios y guiones"
+                       required>
+
+                <label for="salario">Salario:</label>
+                <input type="text" id="salario" name="salario"
+                       pattern="\d+(\.\d{2,4})?"
+                       title="Numero valido, ej. 300000.50"
+                       required>
+
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+
+                <div class="botones">
+                    <button type="submit">Insertar</button>
+                    <a class="regresar" href="/">Regresar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
