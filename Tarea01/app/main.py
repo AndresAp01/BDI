@@ -41,4 +41,70 @@ def validar_nombre(nombre: str) -> bool:
 def validar_salario(salario_texto: str) -> bool:
     return bool(salario_texto) and bool(PATRON_SALARIO.match(salario_texto))
  
+##FUNCIONA ^--
+
+#rutas -----------------------------------------------------
+
+@app.get("/") #
+def lista_empleados(request: Request):
+    """Pantalla principal: llama a sp_ListarEmpleados y muestra el grid."""
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute("EXEC dbo.sp_ListarEmpleados")
+    empleados = cursor.fetchall()
+    conexion.close()
+ 
+    return templates.TemplateResponse(
+        "lista.html",
+        {"request": request, "empleados": empleados},
+    )
+    
+@app.post("/insertar")
+def procesar_insertar(
+    request: Request,
+    nombre: str = Form(...),
+    salario: str = Form(...),
+):
+    """Recibe el formulario, valida formato, y llama a sp_InsertarEmpleado."""
+ 
+    # 1. Validaciones de capa UI (formato), tal como pide el enunciado.
+    if not validar_nombre(nombre):
+        return templates.TemplateResponse(
+            "insertar.html",
+            {
+                "request": request,
+                "error": "El nombre solo puede contener letras, espacios y guiones.",
+            },
+        )
+ 
+    if not validar_salario(salario):
+        return templates.TemplateResponse(
+            "insertar.html",
+            {
+                "request": request,
+                "error": "El salario debe ser un numero valido (ej. 300000.50).",
+            },
+        )
+ 
+    # 2. Llamamos al stored procedure - el sabe si el nombre ya existe.
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute(
+        "EXEC dbo.sp_InsertarEmpleado %s, %s",
+        (nombre, salario),
+    )
+    resultado = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+ 
+    if resultado["Resultado"] == 0:
+        # Insercion exitosa -> volvemos a la lista.
+        return RedirectResponse(url="/", status_code=303)
+    else:
+        # Codigo 1 (ya existe) o 2 (error inesperado) -> mostramos el mensaje.
+        return templates.TemplateResponse(
+            "insertar.html",
+            {"request": request, "error": resultado["Mensaje"]},
+        )
+
 
