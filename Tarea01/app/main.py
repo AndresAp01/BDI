@@ -27,3 +27,18 @@ def obtener_conexion():
         as_dict=True, #
     )
 
+# validaciones permitidas ----------------------------------
+# Todo lo demas vive en el stored procedure, que es el que hace la validacion final
+
+PATRON_NOMBRE = re.compile(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ\- ]+$")
+PATRON_SALARIO = re.compile(r"^\d+(\.\d{2,4})?$")
+ 
+ 
+def validar_nombre(nombre: str) -> bool:
+    return bool(nombre) and bool(PATRON_NOMBRE.match(nombre))
+ 
+ 
+def validar_salario(salario_texto: str) -> bool:
+    return bool(salario_texto) and bool(PATRON_SALARIO.match(salario_texto))
+ 
+
