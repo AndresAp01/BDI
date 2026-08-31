@@ -7,8 +7,15 @@
 
 ## Objetivos
 
-- Implementar ambiente de desarrollo colaborativo (2 estaciones + servidor BD compartido) 
+- Implementar ambiente de desarrollo colaborativo (2 estaciones + servidor BD compartido) (Listo)
 - App web simple que consulta e inserta en BD vía Stored Procedures 
-- Validaciones de formato en UI, validaciones de negocio en SP 
-- Grid de empleados ordenado alfabéticamente 
-- Formulario "Insertar Empleado" con validación y feedback 
+- Validaciones de formato en UI, validaciones de negocio en SP (Listo)
+- Grid de empleados ordenado alfabéticamente (Listo)
+- Formulario "Insertar Empleado" con validación y feedback (Listo)
+
+## Arquitectura
+
+```
+Browser (Tailscale) ──────► HTTP-HTML-JINJA2 ──────► FastAPI (Python) ──────► TDS ──────►  SQL Server (Docker)
+
+```
