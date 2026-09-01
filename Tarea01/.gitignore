@@ -1,0 +1,9 @@
+#entorno virtual de Python
+backend/venv/
+
+#archivos temporales/compilados de Python
+__pycache__/
+*.pyc
+
+#variables privadas
+.env
