@@ -21,3 +21,15 @@ def probar_conexion():
         "mensaje": "Conexión exitosa",
         "base_datos": resultado[0]
     }
+
+@app.get("/empleados")
+def listar_empleados():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(as_dict=True)
+
+    cursor.callproc("sp_ListarEmpleados")
+    empleados = cursor.fetchall()
+
+    conexion.close()
+
+    return empleados
