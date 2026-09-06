@@ -44,7 +44,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 5000 --reload
 
 # 7. Abrir en navegador
 # Local: http://localhost:5000
-# Tailscale: http://<tu-ip-tailscale>:5000
+# Tailscale: http://<ip-tailscale>:5000
 ```
 
 > **Nota:** Los scripts SQL en `scripts/` se ejecutan manualmente desde VS Code (extensión MSSQL) o `sqlcmd` la primera vez. Ver `scripts/01_crear_tabla.sql` → `05_sp_insertar_empleado.sql`.
@@ -90,8 +90,7 @@ BDI/
 
 ## Licencia / Uso académico
 
-Este repositorio es **trabajo académico** para el curso Bases de Datos I (ITCR 2026).  
-No se autoriza su uso comercial ni distribución sin consentimiento de los autores.
+Este repositorio es **trabajo académico** para el curso Bases de Datos I (ITCR 2026). 
 
 ## Autores
 
