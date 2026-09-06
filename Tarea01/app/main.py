@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 # - datos de conexion, cada quien define estos valores en su propia maquina (ver README),
 # nunca se escriben fijos aqui ni se suben a Git.
@@ -27,9 +27,9 @@ def obtener_conexion():
         database=BASE_DATOS,
         as_dict=True,
     )
-asi cada fila viene como {"id": 1, "Nombre": "...", ...}
+# asi cada fila viene como {"id": 1, "Nombre": "...", ...}
 
-# -validaciones c02 	Angelaapa ui
+# -validaciones capa ui
 PATRON_NOMBRE = re.compile(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ\- ]+$")
 PATRON_SALARIO = re.compile(r"^\d+(\.\d{2,4})?$")
 
