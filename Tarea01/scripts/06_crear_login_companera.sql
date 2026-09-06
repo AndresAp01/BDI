@@ -21,3 +21,4 @@ GO
 GRANT EXECUTE ON dbo.sp_ListarEmpleados TO Angela;
 GRANT EXECUTE ON dbo.sp_InsertarEmpleado TO Angela;
 GO
+

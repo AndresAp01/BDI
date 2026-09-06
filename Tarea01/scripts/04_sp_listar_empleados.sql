@@ -35,3 +35,6 @@ GO
 
 EXEC dbo.sp_ListarEmpleados;
 GO
+
+GRANT EXECUTE ON dbo.sp_ListarEmpleados TO Angela;
+GO

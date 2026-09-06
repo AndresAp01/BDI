@@ -75,3 +75,6 @@ EXEC dbo.sp_InsertarEmpleado @Nombre = 'Pedro Gonzalez', @Salario = 300000.00;
 GO
 
 EXEC dbo.sp_InsertarEmpleado @Nombre = 'Katherine Perez', @Salario = 350000.00;
+
+GRANT EXECUTE ON dbo.sp_InsertarEmpleado TO Angela;
+GO

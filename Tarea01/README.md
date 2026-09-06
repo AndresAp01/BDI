@@ -3,7 +3,7 @@
 **Curso:** Bases de Datos I — ITCR 2026 \
 **Profesor:** Franco Quirós \
 **Fecha de entrega:** Lunes 7 de septiembre 2026 \
-**Equipo:** Luis Andrés Acuña Pérez + [Compañera]
+**Equipo:** Luis Andrés Acuña Pérez y Ángela Muñoz Hernández
 
 <p align="center">
   <a href="#bitacora.md">Bitacora</a>
