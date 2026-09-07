@@ -50,6 +50,6 @@ GO
 SELECT COUNT(*) AS TotalEmpleados FROM dbo.Empleado;
 GO
 
--- Vista rapida ordenada como la pide el enunciado (alfabetico por nombre).
+-- Vista rapida ordenada(alfabetico por nombre).
 SELECT * FROM dbo.Empleado ORDER BY Nombre ASC;
 GO

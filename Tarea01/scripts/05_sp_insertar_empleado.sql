@@ -1,22 +1,20 @@
 -- 05_sp_insertar_empleado.sql
--- lo que Python va a pedir cuando el usuario llena el formulario
--- de "Insertar Empleado" y presiona el boton.
+-- lo que Python va a pedir cuando el usuario llena el formulario de "Insertar Empleado" y presiona el boton
 --
--- Reglas del enunciado:
+-- Reglas:
 --   - Si el nombre ya existe, NO inserta, devuelve un codigo de error.
---   - Esa validacion se hace programaticamente (con un SELECT), no con
---     un indice UNIQUE.
+--   - Esa validacion se hace con un SELECT, no con un indice UNIQUE.
 
 USE BDI_Tarea01;
 GO
 
-IF OBJECT_ID('dbo.sp_InsertarEmpleado', 'P') IS NOT NULL
+IF OBJECT_ID('dbo.sp_InsertarEmpleado', 'P') IS NOT NULL -- si ya existia, la borramos
 BEGIN
     DROP PROCEDURE dbo.sp_InsertarEmpleado;
 END
 GO
 
-CREATE PROCEDURE dbo.sp_InsertarEmpleado
+CREATE PROCEDURE dbo.sp_InsertarEmpleado -- creamos el stored procedure
     @Nombre  VARCHAR(128),
     @Salario MONEY
 AS
@@ -63,7 +61,7 @@ BEGIN
     END CATCH
 END
 GO
-
+----------------------------------------------------------------------
 -- Pruebas manuales:
 
 -- Prueba a insercion exitosa

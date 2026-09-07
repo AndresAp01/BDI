@@ -1,6 +1,6 @@
 -- 01_crear_tabla.sql
 -- Crea la base de datos del proyecto y la tabla Empleado
--- tal como la pide el enunciado de la Primera Tarea Programada.
+-- tal como la pide el enunciado.
 
 -- Si la base de datos no existe, se crea
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'BDI_Tarea01')

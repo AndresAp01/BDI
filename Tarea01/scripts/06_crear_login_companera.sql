@@ -1,5 +1,5 @@
 -- 06_crear_login_companera.sql
--- Crea un usuario dedicado para tu companera de equipo
+-- Crea un usuario dedicado a Angela
 
 -- crear el login a nivel de servidor
 CREATE LOGIN Angela WITH PASSWORD = 'ClaveDeElla2026!';
@@ -21,4 +21,6 @@ GO
 GRANT EXECUTE ON dbo.sp_ListarEmpleados TO Angela;
 GRANT EXECUTE ON dbo.sp_InsertarEmpleado TO Angela;
 GO
+
+------------------- 
 

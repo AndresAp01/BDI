@@ -191,11 +191,10 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | **Total líneas proyecto** | ~785 | Python + SQL + HTML |
 | **Tablas BD creadas** | 2 | `Empleado`, `LogErrores` |
 | **Stored Procedures** | 2 | `sp_ListarEmpleados`, `sp_InsertarEmpleado` |
-| **Funciones/Triggers** | 0 | No requeridos |
 | **Scripts SQL** | 6 | 01-crear_tabla, 02-carga_datos, 03-log_errores, 04-sp_listar, 05-sp_insertar, 06-login_companera |
 | **Commits en GitHub** | 30+ | `git log --oneline \| wc -l` |
 | **Contribuyentes en GitHub** | 2 | Andrés + Angela |
-| **Archivos en repo (Tarea01)** | 18 | .gitignore, docker-compose.yml, 6 SQL, 2 Python app, 2 templates, 2 Python backend, bitacora.md, README.md, requirements.txt, 00_probar_conexion.py |
+| **Archivos en repo (Tarea01)** | 18 | |
 
 ### 7.3 Métricas de Pruebas
 
