@@ -33,26 +33,11 @@
 6. [Análisis de Resultados por Requisito](#6-análisis-de-resultados-por-requisito)
 7. [Métricas del Proyecto](#7-métricas-del-proyecto)
 
----
-
-## 3. Índice de Figuras
-
-| Figura | Título | Página |
-|--------|--------|--------|
-| 1 | Diagrama de red: ambiente colaborativo (2 estaciones + servidor BD + Tailscale) | — |
-| 2 | Arquitectura de la aplicación: 3 capas (Presentación → Lógica → Datos) | — |
-| 3 | Gráfico de contribuciones GitHub (agosto-septiembre 2026) | — |
-| 4 | Captura: Grid de empleados en browser | — |
-| 5 | Captura: Formulario Insertar Empleado | — |
-| 6 | Captura: Error "Nombre ya existe" | — |
-
----
-
 ## 4. Introducción
 
-Este documento presenta el análisis de resultados de la **Primera Tarea Programada** del curso Bases de Datos I (ITCR 2026). La tarea consistió en implementar una prueba de concepto que conecta una base de datos Microsoft SQL Server a una aplicación web sencilla (FastAPI + Jinja2) que permite consultar e insertar empleados mediante **Stored Procedures**, siguiendo la regla estricta de **cero SQL en la capa lógica**.
+Este documento presenta el análisis de resultados de la **Primera Tarea Programada** del curso Bases de Datos I. La tarea consistió en implementar una prueba de concepto que conecta una base de datos Microsoft SQL Server a una aplicación web sencilla que permite consultar e insertar empleados mediante **Stored Procedures**.
 
-El trabajo se desarrolló en **pareja** durante 7 sesiones de trabajo (26 agosto – 4 septiembre 2026), utilizando un ambiente colaborativo donde el servidor de base de datos corre en un contenedor Docker en la máquina de un integrante y es accesible para el otro integrante mediante **Tailscale** (red mesh VPN).
+El trabajo se desarrolló en **pareja** durante sesiones de trabajo (26 agosto – 4 septiembre 2026), utilizando un ambiente colaborativo donde el servidor de base de datos corre en un contenedor Docker en la máquina de un integrante y es accesible para amnbos mediante **Tailscale** (red mesh VPN).
 
 Este análisis evalúa el cumplimiento de cada requisito del enunciado, documenta el ambiente de desarrollo y la arquitectura implementada, y presenta las métricas cuantitativas del proyecto.
 
@@ -67,7 +52,7 @@ Este análisis evalúa el cumplimiento de cada requisito del enunciado, document
 ```mermaid
 graph LR
     subgraph "Estación 1 (Andrés - Host)"
-        A1[VS Code + MSSQL Ext]
+        A1[VS Code + MSSQL]
         A2[Git + GitHub CLI]
         A3[Tailscale Node]
         DOCKER[Docker Engine]
@@ -76,9 +61,10 @@ graph LR
     end
 
     subgraph "Estación 2 (Angela)"
-        B1[VS Code + MSSQL Ext]
+        B1[VS Code + MSSQL]
         B2[Git + GitHub CLI]
         B3[Tailscale Node]
+        B4[SSMS]
     end
 
     GITHUB[(GitHub\nRepositorio BDI)]
@@ -94,15 +80,12 @@ graph LR
 
 **Explicación del diagrama:**
 
-- **Dos estaciones de trabajo** (Andrés y Angela) conectadas mediante **Tailscale**, que crea una red privada virtual (mesh) sobre Internet. Cada nodo obtiene una IP estable `100.x.y.z`.
+- **Dos estaciones de trabajo** (Andrés y Angela) conectadas mediante **Tailscale**, que crea una red privada virtual (mesh) sobre Internet. Cada nodo obtiene una IP estatica `100.x.y.z`.
 - **Servidor de base de datos:** Microsoft SQL Server 2022 corriendo en un **contenedor Docker** en la máquina de Andrés (host). El contenedor expone el puerto 1433 en la interfaz de Tailscale (`tailscale0`), no en localhost, permitiendo conexiones remotas seguras.
 - **Conexión a la BD:** Ambos integrantes usan **VS Code con la extensión MSSQL** para conectarse a la BD usando la IP Tailscale del host (`100.112.85.50:1433`), usuario `sa` y contraseña compartida.
-- **Control de versiones:** **Git + GitHub** (repo `AndresAp01/BDI`). Ambos hacen push/pull via SSH. Commits atómicos, mensajes convencionales (`feat:`, `fix:`, `docs:`).
-- **IDE y cliente BD:** VS Code (editor principal) + extensión MSSQL (cliente de administración de objetos BD: tablas, SPs, consultas).
-- **Tecnologías de conexión:** Tailscale (WireGuard), Docker (contenedorización), pymssql (driver Python→TDS), FastAPI/uvicorn (servidor web).
-
-> **Autoexplicativo:** El diagrama muestra las dos estaciones, el servidor BD contenerizado, la red Tailscale que las une, GitHub como fuente de verdad del código, y las herramientas locales (VS Code, MSSQL Ext).
-
+- **Control de versiones:** **Git + GitHub** (repo `AndresAp01/BDI`). Ambos hacemos push/pull via SSH. Commits atómicos.
+- **IDE y cliente BD:** VS Code (editor principal) + extensión MSSQL (cliente de administración de objetos BD: tablas, SPs, consultas), Angela utiliza SSMS.
+- **Tecnologías de conexión:** Tailscale, Docker, pymssql, FastAPI/uvicorn (servidor web).
 ---
 
 ### 5.2 Arquitectura de la Aplicación
@@ -142,7 +125,7 @@ graph TB
 
 | Capa | Tecnologías | Responsabilidad |
 |------|-------------|-----------------|
-| **Presentación** | HTML5, CSS3, Jinja2 Templates | Renderizar grid de empleados, formulario de inserción, mostrar mensajes de error/éxito. Validación HTML5 `pattern` + required. |
+| **Presentación** | HTML, CSS, Jinja2 Templates | Renderizar grid de empleados, formulario de inserción, mostrar mensajes de error/éxito. Validación HTML5 `pattern` + required. |
 | **Lógica** | Python 3.11, FastAPI 0.115, Uvicorn, pymssql 2.3, python-dotenv | Recibir peticiones HTTP, validar formato de entrada (regex nombre/salario), invocar **exclusivamente Stored Procedures** vía `cursor.callproc()` / `cursor.execute("EXEC ...")`, manejar códigos de retorno (0=OK, 1=duplicado, 2=error), aplicar patrón PRG (Post-Redirect-Get). |
 | **Datos** | MS SQL Server 2022, T-SQL | Almacenar datos (`Empleado`), ejecutar lógica de negocio en SPs (`sp_ListarEmpleados`, `sp_InsertarEmpleado`), auditar errores (`LogErrores`), validar duplicados programáticamente (`IF EXISTS`), transacciones atómicas (`BEGIN TRAN / COMMIT / ROLLBACK`). |
 
@@ -157,7 +140,7 @@ graph TB
 En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica de evaluación.
 
 | # | Requisito / Elemento | Implementado | % | Comentario |
-|---|----------------------|:------------:|:--:|------------|
+|-- |----------------------|:------------:|:--:|------------|
 | 1 | **BD creada** (`BDI_Tarea01`) | ✅ Sí | 100% | Script `01_crear_tabla.sql` crea BD y tabla. Verificada en contenedor. |
 | 2 | **Tabla Empleado** (id PK identity, Nombre VARCHAR(128) NOT NULL, Salario MONEY NOT NULL) | ✅ Sí | 100% | Estructura exacta al enunciado. |
 | 3 | **≥40 filas cargadas** via INSERT | ✅ Sí | 100% | 43 filas insertadas (`02_carga_datos.sql`). Incluyen casos para probar duplicados. |
@@ -182,8 +165,6 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | 22 | **Diagrama red colaborativo** | ✅ Sí | 100% | Incluido en sección 5.1 (Mermaid + explicación). |
 | 23 | **Diagrama arquitectura app** | ✅ Sí | 100% | Incluido en sección 5.2 (Mermaid + tabla capas). |
 
-**Leyenda:** ✅ = Completo y probado | 🟡 = En progreso | ❌ = No implementado
-
 ---
 
 ## 7. Métricas del Proyecto
@@ -192,27 +173,27 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 
 | Métrica | Valor | Fuente |
 |---------|-------|--------|
-| **Fecha primera reunión** | 26 agosto 2026 (19:31) | Blogger entrada 1 |
+| **Fecha primera reunión** | 26 agosto 2026 | Blogger entrada 1 |
 | **Fecha primer commit GitHub** | 26 agosto 2026 | `git log --reverse` |
 | **Fecha última sesión documentada** | 4 septiembre 2026 | Blogger entrada 6 |
 | **Total sesiones de trabajo** | 7 | Bitácora |
-| **Horas totales estimadas** | ~13.5 h | Suma duraciones bitácora |
+| **Horas totales estimadas** | ~15 h | Suma duraciones bitácora |
 | **Horas Andrés** | ~7 h | Commits + bitácora |
-| **Horas Angela** | ~6.5 h | Commits + bitácora |
+| **Horas Angela** | ~8 h | Commits + bitácora |
 
 ### 7.2 Métricas de Código y Artefactos
 
 | Métrica | Valor | Detalle |
 |---------|-------|---------|
 | **Líneas de código Python** | ~280 | `app/main.py` (121), `backend/main.py` (35), `backend/basedatos.py` (15), `00_probar_conexion.py` (39), `requirements.txt` (5) |
-| **Líneas de código SQL** | ~420 | `scripts/01` a `06` (856+3516+648+674+2110+589 chars ≈ 420 líneas) |
+| **Líneas de código SQL** | ~420 | `scripts/01` a `06` |
 | **Líneas HTML/CSS (templates)** | ~85 | `lista.html` (36), `insertar.html` (49) |
 | **Total líneas proyecto** | ~785 | Python + SQL + HTML |
 | **Tablas BD creadas** | 2 | `Empleado`, `LogErrores` |
 | **Stored Procedures** | 2 | `sp_ListarEmpleados`, `sp_InsertarEmpleado` |
 | **Funciones/Triggers** | 0 | No requeridos |
 | **Scripts SQL** | 6 | 01-crear_tabla, 02-carga_datos, 03-log_errores, 04-sp_listar, 05-sp_insertar, 06-login_companera |
-| **Commits en GitHub** | 10+ | `git log --oneline \| wc -l` |
+| **Commits en GitHub** | 30+ | `git log --oneline \| wc -l` |
 | **Contribuyentes en GitHub** | 2 | Andrés + Angela |
 | **Archivos en repo (Tarea01)** | 18 | .gitignore, docker-compose.yml, 6 SQL, 2 Python app, 2 templates, 2 Python backend, bitacora.md, README.md, requirements.txt, 00_probar_conexion.py |
 
@@ -221,7 +202,6 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | Métrica | Valor | Detalle |
 |---------|-------|---------|
 | **Casos de prueba manuales** | 6 | Ver tabla en README Tarea01 |
-| **Pruebas automatizadas** | 0 | No requeridas en esta tarea |
 | **Tiempo de pruebas manuales** | ~1.5 h | Sesiones 6-7 |
 | **Datos de prueba procesados** | 43 filas | Empleados cargados + 2-3 inserciones de prueba |
 | **Cobertura de requisitos probados** | 100% | Todos los 17 requisitos funcionales verificados |
