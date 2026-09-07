@@ -1,21 +1,21 @@
 # Análisis de Resultados — Primera Tarea Programada BDI
 
 **Curso:** Bases de Datos I — ITCR 2026  
-**Profesor:** fquiros  
+**Profesor:** Franco Quirós  
 **Fecha de entrega:** Lunes 7 de septiembre 2026  
-**Equipo:** Luis Andrés Acuña Pérez + Angela [Apellido]
+**Equipo:** Luis Andrés Acuña Pérez y Ángela Muñoz Hernández
 
 ---
 
 ## 1. Portada
 
-| Campo | Detalle |
+|  | Detalle |
 |-------|---------|
 | **Proyecto** | Primera Tarea Programada — Prueba de Concepto |
-| **Curso** | Bases de Datos I |
+| **Curso** | Bases de Datos I, grupo 02|
 | **Institución** | Instituto Tecnológico de Costa Rica — Escuela de Ingeniería en Computación |
-| **Profesor** | fquiros |
-| **Integrantes** | Luis Andrés Acuña Pérez, Angela [Apellido] |
+| **Profesor** | Franco Quirós   |
+| **Integrantes** | Luis Andrés Acuña Pérez, Ángela Muñoz Hernández |
 | **Fecha** | Setiembre 2026 |
 | **Repositorio** | https://github.com/AndresAp01/BDI |
 
@@ -159,8 +159,8 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | 16 | **Mensaje "Inserción exitosa"** + redirect a grid actualizado | ✅ Sí | 100% | `RedirectResponse 303` a `/` tras éxito. Grid muestra nueva fila. |
 | 17 | **Mensaje "Nombre ya existe"** + queda en formulario | ✅ Sí | 100% | Re-render `insertar.html` con error del SP. |
 | 18 | **Al menos 2 SPs** (listar + insertar) | ✅ Sí | 100% | `sp_ListarEmpleados`, `sp_InsertarEmpleado` + `LogErrores` audit. |
-| 19 | **Bitácora** (Blogger + bitacora.md en repo) | ✅ Sí | 95% | 7 sesiones documentadas en Blogger. Falta volcar completo a `bitacora.md` del repo. |
-| 20 | **Análisis de Resultados** (este documento) | 🟡 En curso | 80% | Estructura completa. Falta pulir métricas finales y exportar a PDF. |
+| 19 | **Bitácora** (Blogger + bitacora.md en repo) | ✅ Sí | 100% | 7 sesiones documentadas en Blogger.  |
+| 20 | **Análisis de Resultados** (este documento) |✅ Sí | 100% | Estructura completa. Falta pulir métricas finales y exportar a PDF. |
 | 21 | **GitHub con historial evolutivo** | ✅ Sí | 100% | 10+ commits atómicos desde 26 ago. Dos contribuyentes. |
 | 22 | **Diagrama red colaborativo** | ✅ Sí | 100% | Incluido en sección 5.1 (Mermaid + explicación). |
 | 23 | **Diagrama arquitectura app** | ✅ Sí | 100% | Incluido en sección 5.2 (Mermaid + tabla capas). |
@@ -178,14 +178,14 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | **Fecha última sesión documentada** | 4 septiembre 2026 | Blogger entrada 6 |
 | **Total sesiones de trabajo** | 7 | Bitácora |
 | **Horas totales estimadas** | ~15 h | Suma duraciones bitácora |
-| **Horas Andrés** | ~7 h | Commits + bitácora |
-| **Horas Angela** | ~8 h | Commits + bitácora |
+| **Horas Andrés** | ~10 h estimad | Commits + bitácora |
+| **Horas Angela** | ~12 h estimadas | Commits + bitácora |
 
 ### 7.2 Métricas de Código y Artefactos
 
 | Métrica | Valor | Detalle |
 |---------|-------|---------|
-| **Líneas de código Python** | ~280 | `app/main.py` (121), `backend/main.py` (35), `backend/basedatos.py` (15), `00_probar_conexion.py` (39), `requirements.txt` (5) |
+| **Líneas de código Python** | ~270 | `main.py` (108), `backend/main.py` (35), `backend/basedatos.py` (15), `00_probar_conexion.py` (39), `requirements.txt` (5) |
 | **Líneas de código SQL** | ~420 | `scripts/01` a `06` |
 | **Líneas HTML/CSS (templates)** | ~85 | `lista.html` (36), `insertar.html` (49) |
 | **Total líneas proyecto** | ~785 | Python + SQL + HTML |
@@ -203,7 +203,7 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | **Casos de prueba manuales** | 6 | Ver tabla en README Tarea01 |
 | **Tiempo de pruebas manuales** | ~1.5 h | Sesiones 6-7 |
 | **Datos de prueba procesados** | 43 filas | Empleados cargados + 2-3 inserciones de prueba |
-| **Cobertura de requisitos probados** | 100% | Todos los 17 requisitos funcionales verificados |
+| **Cobertura de requisitos probados** | 100% | Todos los 17 requisitos funcionales |
 
 ### 7.4 Métricas de GitHub (Gráficos)
 
@@ -223,17 +223,11 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 
 La **Primera Tarea Programada** se completó satisfactoriamente:
 
-1. **Todos los requisitos funcionales** (1-18) están **implementados al 100%** y probados end-to-end.
+1. **Todos los requisitos funcionales** (1-18) están **implementados al 100%** y probados.
 2. **Arquitectura correcta**: 3 capas, cero SQL en Python, validaciones UI ↔ SP según especificación.
 3. **Ambiente colaborativo funcional**: Docker + Tailscale + GitHub permite trabajo en paralelo real.
-4. **Documentación en progreso**: Bitácora en Blogger (7 entradas escalonadas) → pendiente volcar completa a `bitacora.md` del repo. Análisis de Resultados (este doc) → pendiente exportar a PDF final.
-5. **Evidencia de trabajo regular**: Commits desde 26 ago, bitácora con fechas/horas, dos contribuyentes activos.
-
-**Próximos pasos inmediatos (antes del lunes 7 sep):**
-- Volcar bitácora Blogger completa a `Tarea01/bitacora.md` (formato markdown estructurado)
-- Exportar este documento a PDF (pandoc / VS Code Markdown PDF)
-- Verificar clon fresco + `docker compose up -d` + `uvicorn` en máquina limpia
-- Push final a GitHub
+4. **Documentación**: Bitácora en Blogger (7 entradas escalonadas) → pendiente volcar completa a `bitacora.md` del repo. Análisis de Resultados (este doc) → pendiente exportar a PDF final.
+5. **Evidencia de trabajo**: Commits desde 26 agosto, bitácoras con fechas/horas.
 
 ---
 

@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 app = FastAPI()
 templates = Jinja2Templates(directory="app/templates")
 
-# - datos de conexion, cada quien define estos valores en su propia maquina (ver README),
+# !!! datos de conexion, cada quien define estos valores en su propia maquina (ver README),
 # nunca se escriben fijos aqui ni se suben a Git.
 SERVIDOR = os.environ.get("DB_SERVIDOR", "localhost")
 PUERTO = int(os.environ.get("DB_PUERTO", "14330"))
@@ -27,7 +27,6 @@ def obtener_conexion():
         database=BASE_DATOS,
         as_dict=True,
     )
-# asi cada fila viene como {"id": 1, "Nombre": "...", ...}
 
 # -validaciones capa ui
 PATRON_NOMBRE = re.compile(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ\- ]+$")
