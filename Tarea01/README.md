@@ -23,6 +23,7 @@
 Browser (Tailscale) ──────► HTTP-HTML-JINJA2 ──────► FastAPI (Python) ──────► TDS ──────►  SQL Server (Docker)
 
 ```
+![Diagrama de red](/BDI/assets/image.png)
 ---
 ## Inicio rápido / Quickstart
 
