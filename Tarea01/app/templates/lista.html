@@ -11,11 +11,18 @@
         th { background: #1e40af; color: white; padding: 10px; text-align: left; }
         td { padding: 10px; border-bottom: 1px solid #eee; }
         .boton { display: inline-block; margin: 20px; padding: 10px 20px; background: #1e40af; color: white; text-decoration: none; border-radius: 6px; }
+        .mensaje-exito {margin: 20px;padding: 12px;border: 1px solid green;border-radius: 6px;text-align: center;font-weight: bold;
+}
     </style>
 </head>
 <body>
     <div class="tarjeta">
         <div class="encabezado">Lista de Empleados</div>
+        {% if mensaje %}
+        <div class="mensaje-exito">
+            {{ mensaje }}
+        </div>
+        {% endif %}
         <table>
             <tr>
                 <th>id</th>

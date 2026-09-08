@@ -1,19 +1,22 @@
 import os
 import re
 import pymssql
+from dotenv import load_dotenv
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+
+load_dotenv()
 templates = Jinja2Templates(directory="app/templates")
 
 # !!! datos de conexion, cada quien define estos valores en su propia maquina (ver README),
 # nunca se escriben fijos aqui ni se suben a Git.
-SERVIDOR = os.environ.get("DB_SERVIDOR", "localhost")
+SERVIDOR = os.environ.get("DB_SERVIDOR")
 PUERTO = int(os.environ.get("DB_PUERTO", "14330"))
-USUARIO = os.environ.get("DB_USUARIO", "sa")
-CONTRASENA = os.environ.get("DB_CONTRASENA", "Bd2026Segura!")
+USUARIO = os.environ.get("DB_USUARIO")
+CONTRASENA = os.environ.get("DB_CONTRASENA")
 BASE_DATOS = os.environ.get("DB_NOMBRE", "BDI_Tarea01")
 
 
@@ -45,16 +48,22 @@ def validar_salario(salario_texto: str) -> bool:
 # -rutas
 
 @app.get("/")
-def lista_empleados(request: Request):
+def lista_empleados(request: Request, mensaje: str | None = None):
     conexion = obtener_conexion()
-    cursor = conexion.cursor()
-    cursor.execute("EXEC dbo.sp_ListarEmpleados")
+    cursor = conexion.cursor(as_dict=True)
+
+    cursor.callproc("sp_ListarEmpleados")
     empleados = cursor.fetchall()
+    cursor.close()
     conexion.close()
 
     return templates.TemplateResponse(
         "lista.html",
-        {"request": request, "empleados": empleados},
+        {
+            "request": request,
+            "empleados": empleados,
+            "mensaje": mensaje
+        },
     )
 
 
@@ -91,17 +100,23 @@ def procesar_insertar(
         )
 
     conexion = obtener_conexion()
-    cursor = conexion.cursor()
-    cursor.execute(
-        "EXEC dbo.sp_InsertarEmpleado %s, %s",
-        (nombre, salario),
+    cursor = conexion.cursor(as_dict=True)
+
+    cursor.callproc(
+        "sp_InsertarEmpleado",
+        (nombre, salario)
     )
+
     resultado = cursor.fetchone()
     conexion.commit()
+    cursor.close()
     conexion.close()
 
     if resultado["Resultado"] == 0:
-        return RedirectResponse(url="/", status_code=303)
+        return RedirectResponse(
+            url="/?mensaje=Insercion%20exitosa",
+            status_code=303
+    )
     else:
         return templates.TemplateResponse(
             "insertar.html",
