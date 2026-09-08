@@ -27,6 +27,7 @@ def obtener_conexion():
         database=BASE_DATOS,
         as_dict=True,
     )
+#asi cada fila viene como {"id": 1, "Nombre": "...", ...}
 
 # -validaciones capa ui
 PATRON_NOMBRE = re.compile(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ\- ]+$")
