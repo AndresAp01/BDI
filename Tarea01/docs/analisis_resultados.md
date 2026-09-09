@@ -113,10 +113,10 @@ graph TB
 
     UI -->|HTTP GET/POST| API
     CTRL --> VAL
-    CTRL -->|pymssql EXEC sp_xxx| SP1
-    CTRL -->|pymssql EXEC sp_xxx| SP2
-    SP1 --> TBL
-    SP2 --> TBL
+    CTRL -->|pymssql callproc() sp_xxx| SP1
+    CTRL -->|pymssql callproc() sp_xxx| SP2
+    SP1 --> TABLA
+    SP2 --> TABLA
     SP1 -.->|ERROR| LOG
     SP2 -.->|ERROR| LOG
 ```
@@ -126,7 +126,7 @@ graph TB
 | Capa | Tecnologías | Responsabilidad |
 |------|-------------|-----------------|
 | **Presentación** | HTML, CSS, Jinja2 Templates | Renderizar grid de empleados, formulario de inserción, mostrar mensajes de error/éxito. Validación HTML5 `pattern` + required. |
-| **Lógica** | Python 3.11, FastAPI 0.115, Uvicorn, pymssql 2.3, python-dotenv | Recibir peticiones HTTP, validar formato de entrada (regex nombre/salario), invocar **exclusivamente Stored Procedures** vía `cursor.callproc()` / `cursor.execute("EXEC ...")`, manejar códigos de retorno (0=OK, 1=duplicado, 2=error), aplicar patrón PRG (Post-Redirect-Get). |
+| **Lógica** | Python 3.11, FastAPI 0.115, Uvicorn, pymssql 2.3, python-dotenv | Recibir peticiones HTTP, validar formato de entrada (regex nombre/salario), invocar **exclusivamente Stored Procedures** vía `cursor.callproc()`, manejar códigos de retorno (0=OK, 1=duplicado, 2=error), aplicar patrón PRG (Post-Redirect-Get). |
 | **Datos** | MS SQL Server 2022, T-SQL | Almacenar datos (`Empleado`), ejecutar lógica de negocio en SPs (`sp_ListarEmpleados`, `sp_InsertarEmpleado`), auditar errores (`LogErrores`), validar duplicados programáticamente (`IF EXISTS`), transacciones atómicas (`BEGIN TRAN / COMMIT / ROLLBACK`). |
 
 **Patrón de diseño:** **Arquitectura en 3 capas (3-tier)** con **separación estricta de responsabilidades**. La capa lógica **no contiene SQL** — solo invoca SPs. La capa de datos encapsula toda la lógica de acceso y validación de integridad.
@@ -151,7 +151,7 @@ En la siguiente tabla se evalúa cada elemento del enunciado según la rúbrica 
 | 8 | **Validación nombre** (solo letras, guiones, espacios) en UI | ✅ Sí | 100% | Regex `^[A-Za-zÁÉÍÓÚáéíóúÑñ\- ]+$` en Python + HTML5 `pattern`. |
 | 9 | **Validación salario** (monetario bien formado: dígitos, 1 punto, 2-4 decimales) en UI | ✅ Sí | 100% | Regex `^\d+(\.\d{2,4})?$` en Python + HTML5 `pattern`. |
 | 10 | **Botón "Regresar"** vuelve a grid actualizado | ✅ Sí | 100% | `<a class="regresar" href="/">` en formulario. |
-| 11 | **Botón "Insertar"** valida campos vacíos, formato, llama SP | ✅ Sí | 100% | POST `/insertar` → validaciones → `EXEC sp_InsertarEmpleado`. |
+| 11 | **Botón "Insertar"** valida campos vacíos, formato, llama SP | ✅ Sí | 100% | POST `/insertar` → validaciones → `callproc() sp_InsertarEmpleado`. |
 | 12 | **Mensajes error** en UI si validación falla | ✅ Sí | 100% | Template `insertar.html` muestra `{{ error }}` en rojo. |
 | 13 | **SP Insertar valida duplicado programáticamente** (`IF EXISTS`, no índice UNIQUE) | ✅ Sí | 100% | `sp_InsertarEmpleado` usa `IF EXISTS (SELECT 1 FROM Empleado WHERE Nombre=@Nombre)`. |
 | 14 | **SP retorna código error** si duplicado | ✅ Sí | 100% | Retorna `Resultado=1, Mensaje='Nombre de Empleado ya existe.'`. |
